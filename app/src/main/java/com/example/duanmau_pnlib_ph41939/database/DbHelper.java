@@ -57,6 +57,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(createTableLoaiSach);
         db.execSQL(createTableSach);
         db.execSQL(createTablePhieuMuon);
+        db.execSQL("INSERT INTO THUTHU VALUES ('admin','Nguyễn Sỹ Quý','111111', 1)");
     }
 
     @Override

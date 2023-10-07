@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">DuAnMau_PNLib_PH41939</string>
+    <string name="open">Open nav</string>
+    <string name="close">Close nav</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

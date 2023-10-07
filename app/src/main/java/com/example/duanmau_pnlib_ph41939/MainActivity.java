@@ -13,6 +13,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,8 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.duanmau_pnlib_ph41939.R;
+import com.example.duanmau_pnlib_ph41939.dao.ThuThuDao;
 import com.example.duanmau_pnlib_ph41939.fragment.LoaiSachFragment;
 import com.example.duanmau_pnlib_ph41939.fragment.PhieuMuonFragment;
 import com.example.duanmau_pnlib_ph41939.fragment.SachFragment;
@@ -30,6 +33,8 @@ import com.example.duanmau_pnlib_ph41939.fragment.ThongKeDoanhThuFragment;
 import com.example.duanmau_pnlib_ph41939.fragment.ThongKeTop10Fragment;
 import com.example.duanmau_pnlib_ph41939.fragment.ThuThuFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -107,11 +112,51 @@ public class MainActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
         //ánh xạ
-        EditText txtMatKhauCu = view.findViewById(R.id.txtMatKhauCu);
-        EditText txtMatKhauMoi = view.findViewById(R.id.txtMatKhauMoi);
-        EditText txtMatKhauMoixn = view.findViewById(R.id.txtMatKhauMoixn);
-        Button btnCancelud = view.findViewById(R.id.btnCancelud);
-        Button btnSaveud = view.findViewById(R.id.btnSaveud);
+        TextInputLayout inMkCu = view.findViewById(R.id.inMKHienTai);
+        TextInputLayout inMkMoi = view.findViewById(R.id.inMKMoi);
+        TextInputLayout inNhapLaiMK = view.findViewById(R.id.inNhapLaiMK);
+        TextInputEditText edMkCu = view.findViewById(R.id.edMKHienTai);
+        TextInputEditText edMkMoi = view.findViewById(R.id.edMKMoi);
+        TextInputEditText edNhapLaiMK = view.findViewById(R.id.edNhapLaiMK);
+        Button btnLuu = view.findViewById(R.id.btnLuuMK);
+        Button btnHuy = view.findViewById(R.id.btnHuyLuu);
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edMkCu.setText("");
+                edMkMoi.setText("");
+                edNhapLaiMK.setText("");
+            }
+        });
+        btnLuu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String oldPass = edMkCu.getText().toString();
+                String newPass = edMkMoi.getText().toString();
+                String repass = edNhapLaiMK.getText().toString();
+                if(newPass.equals(repass)){
+                    SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences("USER_FILE",MainActivity.this.MODE_PRIVATE);
+                    String matt = sharedPreferences.getString("USERNAME","");
+                    String mk = sharedPreferences.getString("PASSWORD","");
+                    //cập nhật
+                    ThuThuDao thuThuDao =  new ThuThuDao(MainActivity.this);
+                    boolean check = thuThuDao.capNhatMatKhau(matt,oldPass,newPass);
+                    if(oldPass.equals(mk)){
+                        if(check){
+                            Toast.makeText(MainActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }else{
+                            Toast.makeText(MainActivity.this, "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        inMkCu.setError("Mật khẩu hiện tại không đúng");
+                    }
+                }else{
+                    inMkMoi.setError("Mật Khẩu Không Khớp");
+                    inNhapLaiMK.setError("Mật Khẩu Không Khớp");
+                }
+            }
+        });
     }
     public void relaceFrg(Fragment frg){
         FragmentManager fg = getSupportFragmentManager();
