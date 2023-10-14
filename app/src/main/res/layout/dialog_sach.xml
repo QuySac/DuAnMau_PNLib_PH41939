@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="140dp"
+        android:background="@drawable/background_dialog"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/background_title_dialog"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="Thêm sách"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_maSach"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:textIsSelectable="false"
+            android:contextClickable="false"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/khung_input_login"
+            android:hint="Mã sách tự động"
+            android:paddingHorizontal="15dp" />
+
+        <EditText
+            android:id="@+id/edt_tenSach"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/khung_input_login"
+            android:hint="Nhập tên sách"
+            android:paddingHorizontal="15dp" />
+
+        <EditText
+            android:id="@+id/edt_giaThue"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/khung_input_login"
+            android:hint="Nhập giá thuê"
+            android:paddingHorizontal="15dp" />
+        <Spinner
+            android:background="#00000000"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="12dp"
+            android:id="@+id/spinner_loaiSach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_login"
+                android:text="Cancel"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_login"
+                android:text="Save"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -9,64 +9,65 @@ import com.example.duanmau_pnlib_ph41939.database.DbHelper;
 import com.example.duanmau_pnlib_ph41939.model.LoaiSach;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoaiSachDao {
-    DbHelper dbHelper;
+    private SQLiteDatabase db;
 
-    public LoaiSachDao(Context context) {
-        dbHelper = new DbHelper(context);
+    public LoaiSachDao (Context context) {
+        DbHelper dbHelper = new DbHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
-    public ArrayList<LoaiSach> layDanhSach(){
-        ArrayList<LoaiSach> list = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM LoaiSach",null);
-        if(cursor.getCount() != 0){
-            cursor.moveToFirst();
-            do {
-                int loaiSach = cursor.getInt(0);
-                String tenLoai = cursor.getString(1);
-                list.add(new LoaiSach(loaiSach, tenLoai));
-            }while (cursor.moveToNext());
+    public long insert(LoaiSach obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TENLOAI",obj.getTenLoai());
+
+        return db.insert("LOAISACH",null,contentValues);
+    }
+
+    public long update(LoaiSach obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TENLOAI",obj.getTenLoai());
+
+        return db.update("LOAISACH",contentValues,"MALOAI = ?",new String[]{String.valueOf(obj.getMaLoai())});
+    }
+
+    public int delete(String id) {
+        return db.delete("LOAISACH","MALOAI = ?",new String[]{String.valueOf(id)});
+    }
+
+    private List<LoaiSach> getData(String sql, String ... selectionArgs) {
+        List<LoaiSach> lstLoai = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql,selectionArgs);
+        while (cursor.moveToNext()) {
+            lstLoai.add(new LoaiSach(
+                    Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1)
+            ));
         }
-        return list;
+        return lstLoai;
     }
 
-    public boolean themLoai (String tenLoai){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("TENLOAI", tenLoai);
-        long check = db.insert("LOAISACH",null,values);
-        if(check == -1){
+    public LoaiSach getID (String id) {
+        String sql = "SELECT * FROM LOAISACH WHERE MALOAI = ?";
+        List<LoaiSach> lstLS = getData(sql,id);
+        return lstLS.get(0);
+    }
+
+    public List<LoaiSach> getAll() {
+        String sql = "SELECT * FROM LOAISACH";
+        return getData(sql);
+    }
+
+    public boolean checkID(String fieldValue) {
+        String Query = "SELECT * FROM LOAISACH WHERE MALOAI = " + fieldValue;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
             return false;
-        }else{
-            return true;
         }
-    }
-
-    public int deleteLS(int id){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM SACH WHERE MALOAI = ?", new String[]{String.valueOf(id)});
-        if(cursor.getCount() != 0){
-            return -1;
-        }
-        long check = db.delete("LOAISACH","MALOAI = ?", new String[]{String.valueOf(id)});
-        if(check == -1){
-            return 0;
-        }else{
-            return 1;
-        }
-    }
-
-    public boolean capNhatLoai (LoaiSach loaiSach){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("TENLOAI", loaiSach.getTenLoai());
-        long check = db.update("LOAISACH",values,"MALOAI = ?", new String[]{String.valueOf(loaiSach.getMaLoai())});
-        if(check == -1){
-            return false;
-        }else{
-            return true;
-        }
+        cursor.close();
+        return true;
     }
 }

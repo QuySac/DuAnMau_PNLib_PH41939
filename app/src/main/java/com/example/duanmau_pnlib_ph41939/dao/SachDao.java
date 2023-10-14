@@ -9,67 +9,70 @@ import com.example.duanmau_pnlib_ph41939.database.DbHelper;
 import com.example.duanmau_pnlib_ph41939.model.Sach;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SachDao {
-    DbHelper dbHelper;
+    private SQLiteDatabase db;
 
-    public SachDao(Context context) {
-        dbHelper = new DbHelper(context);
+    public SachDao (Context context) {
+        DbHelper dbHelper = new DbHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
-    public ArrayList<Sach> layDanhSach() {
-        ArrayList<Sach> list = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT sc.MASACH, sc.TENSACH, sc.GIATHUE, ls.MALOAI, ls.TENLOAI FROM SACH sc, LOAISACH ls WHERE sc.MALOAI = ls.MALOAI", null);
-        if (cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            do {
+    public long insert(Sach obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TENSACH",obj.getTenSach());
+        contentValues.put("GIATHUE",obj.getGiaThue());
+        contentValues.put("MALOAI",obj.getMaLoai());
 
-                list.add(new Sach(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getString(4)));
-            } while (cursor.moveToNext());
+        return db.insert("SACH",null,contentValues);
+    }
+
+    public long update(Sach obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TENSACH",obj.getTenSach());
+        contentValues.put("GIATHUE",obj.getGiaThue());
+        contentValues.put("MALOAI",obj.getMaLoai());
+
+        return db.update("SACH",contentValues,"MASACH = ?",new String[]{String.valueOf(obj.getMaSach())});
+    }
+
+    public int delete(String id) {
+        return db.delete("SACH","MASACH = ?",new String[]{String.valueOf(id)});
+    }
+
+    private List<Sach> getData(String sql, String ... selectionArgs) {
+        List<Sach> lstSach = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql,selectionArgs);
+        while (cursor.moveToNext()) {
+            lstSach.add(new Sach(
+                    Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1),
+                    Integer.parseInt(cursor.getString(2)),
+                    Integer.parseInt(cursor.getString(3))
+            ));
         }
-        return list;
+        return lstSach;
+    }
+    public Sach getID (String id) {
+        String sql = "SELECT * FROM Sach WHERE MASACH = ?";
+        List<Sach> lstTT = getData(sql,id);
+        return lstTT.get(0);
     }
 
-    public boolean themSach(String tenSach, int tienThue, int maLoai) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("TENSACH", tenSach);
-        values.put("GIATHUE", tienThue);
-        values.put("MALOAI", maLoai);
-        long check = db.insert("SACH", null, values);
-        if (check == -1) {
+    public List<Sach> getAll() {
+        String sql = "SELECT * FROM SACH";
+        return getData(sql);
+    }
+
+    public boolean checkID(String fieldValue) {
+        String Query = "SELECT * FROM SACH WHERE MALOAI = " + fieldValue;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
             return false;
-        } else {
-            return true;
         }
-    }
-
-    public boolean capNhat(int maSach, String tenSach, int giaThue, int maLoai) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("TENSACH", tenSach);
-        values.put("GIATHUE", giaThue);
-        values.put("MALOAI", maLoai);
-        long check = db.update("Sach", values, "MaSach = ?", new String[]{String.valueOf(maSach)});
-        if (check == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public int xoaSach(int maSach) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM PHIEUMUON where MASACH = ?", new String[]{String.valueOf(maSach)});
-        if (cursor.getCount() != 0) {
-            return -1;
-        }
-        long check = db.delete("SACH", "MASACH = ?", new String[]{String.valueOf(maSach)});
-        if (check == -1) {
-            return 0;
-        } else {
-            return 1;
-        }
+        cursor.close();
+        return true;
     }
 }

@@ -3,12 +3,12 @@ package com.example.duanmau_pnlib_ph41939.model;
 public class ThanhVien {
     private int maTV;
     private String hoTen;
-    private String namSinh;
+    private int namSinh;
 
     public ThanhVien() {
     }
 
-    public ThanhVien(int maTV, String hoTen, String namSinh) {
+    public ThanhVien(int maTV, String hoTen, int namSinh) {
         this.maTV = maTV;
         this.hoTen = hoTen;
         this.namSinh = namSinh;
@@ -30,11 +30,11 @@ public class ThanhVien {
         this.hoTen = hoTen;
     }
 
-    public String getNamSinh() {
+    public int getNamSinh() {
         return namSinh;
     }
 
-    public void setNamSinh(String namSinh) {
+    public void setNamSinh(int namSinh) {
         this.namSinh = namSinh;
     }
 }

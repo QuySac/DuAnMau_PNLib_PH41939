@@ -14,7 +14,8 @@ public class PhieuMuon {
     public PhieuMuon() {
     }
 
-    public PhieuMuon(String maTT, int maTV, int maSach, int tienThue, int trangThai, String ngayThue) {
+    public PhieuMuon(int maPM, String maTT, int maTV, int maSach, int tienThue, int trangThai, String ngayThue) {
+        this.maPM = maPM;
         this.maTT = maTT;
         this.maTV = maTV;
         this.maSach = maSach;

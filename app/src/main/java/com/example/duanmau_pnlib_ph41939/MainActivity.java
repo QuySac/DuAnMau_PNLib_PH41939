@@ -20,18 +20,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.duanmau_pnlib_ph41939.R;
 import com.example.duanmau_pnlib_ph41939.dao.ThuThuDao;
-import com.example.duanmau_pnlib_ph41939.fragment.LoaiSachFragment;
-import com.example.duanmau_pnlib_ph41939.fragment.PhieuMuonFragment;
-import com.example.duanmau_pnlib_ph41939.fragment.SachFragment;
-import com.example.duanmau_pnlib_ph41939.fragment.ThanhVienFragment;
-import com.example.duanmau_pnlib_ph41939.fragment.ThongKeDoanhThuFragment;
-import com.example.duanmau_pnlib_ph41939.fragment.ThongKeTop10Fragment;
-import com.example.duanmau_pnlib_ph41939.fragment.ThuThuFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

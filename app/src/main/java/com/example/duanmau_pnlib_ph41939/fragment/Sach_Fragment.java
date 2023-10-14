@@ -15,27 +15,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.duanmau_pnlib_ph41939.IClickItemRCV;
 import com.example.duanmau_pnlib_ph41939.R;
-import com.example.duanmau_pnlib_ph41939.adapter.ThanhVienAdapter;
+import com.example.duanmau_pnlib_ph41939.adapter.LoaiSachSpinnerAdapter;
+import com.example.duanmau_pnlib_ph41939.adapter.SachAdapter;
+import com.example.duanmau_pnlib_ph41939.dao.LoaiSachDao;
 import com.example.duanmau_pnlib_ph41939.dao.PhieuMuonDao;
-import com.example.duanmau_pnlib_ph41939.dao.ThanhVienDao;
-import com.example.duanmau_pnlib_ph41939.model.ThanhVien;
+import com.example.duanmau_pnlib_ph41939.dao.SachDao;
+import com.example.duanmau_pnlib_ph41939.model.LoaiSach;
+import com.example.duanmau_pnlib_ph41939.model.Sach;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ThanhVienFragment#newInstance} factory method to
+ * Use the {@link Sach_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ThanhVienFragment extends Fragment {
+public class Sach_Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,7 +51,7 @@ public class ThanhVienFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ThanhVienFragment() {
+    public Sach_Fragment() {
         // Required empty public constructor
     }
 
@@ -56,11 +61,11 @@ public class ThanhVienFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ThanhVienFragment.
+     * @return A new instance of fragment Sach_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ThanhVienFragment newInstance(String param1, String param2) {
-        ThanhVienFragment fragment = new ThanhVienFragment();
+    public static Sach_Fragment newInstance(String param1, String param2) {
+        Sach_Fragment fragment = new Sach_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,26 +81,37 @@ public class ThanhVienFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    RecyclerView rcv_thanhvien;
-    ArrayList<ThanhVien> lstTV;
+    RecyclerView rcv_sach;
+    ArrayList<Sach> lstSach;
+    ArrayList<LoaiSach> lstLS;
 
     FloatingActionButton btn_add;
-    static ThanhVienDao thanhVienDAO;
-    static PhieuMuonDao phieuMuonDAO;
-    ThanhVienAdapter adapter;
-    ThanhVien thanhVien;
-    EditText edt_maTV,edt_hoten,edt_namsinh, edCccd;
+    static SachDao sachDAO;
+    SachAdapter adapter;
+    Sach sach;
+    LoaiSachDao loaiSachDAO;
+    PhieuMuonDao phieuMuonDAO;
+    LoaiSach loaiSach;
+    LoaiSachSpinnerAdapter spinnerAdapter;
+
     Dialog dialog;
+    Spinner spinner_loaiSach;
+    EditText edt_maSach,edt_tenSach,edt_giaThue, edt_namXB;
+    int maLoaiSach = 0;
     int getPosition;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_thanh_vien, container, false);
-        lstTV = new ArrayList<>();
-        thanhVien = new ThanhVien();
-        thanhVienDAO = new ThanhVienDao(getContext());
+        View view = inflater.inflate(R.layout.fragment_sach_, container, false);
+        sach = new Sach();
+        lstSach = new ArrayList<>();
+        lstLS = new ArrayList<>();
+        sachDAO = new SachDao(getContext());
+        loaiSachDAO = new LoaiSachDao(getContext());
         phieuMuonDAO = new PhieuMuonDao(getContext());
+        loaiSach = new LoaiSach();
+        lstLS = (ArrayList<LoaiSach>) loaiSachDAO.getAll();
         initUI(view);
         fillRCV();
         btnAdd();
@@ -110,30 +126,72 @@ public class ThanhVienFragment extends Fragment {
         });
     }
 
+    public void fillRCV() {
+        lstSach = (ArrayList<Sach>) sachDAO.getAll();
+        adapter = new SachAdapter(getContext(), lstSach, new IClickItemRCV() {
+            @Override
+            public void iclickItem(RecyclerView.ViewHolder viewHolder, int position, int type) {
+                getPosition = position;
+                if (type == 0) {
+                    openDialog(getContext(),1);
+                } else {
+                    xoa_sach(String.valueOf(position));
+                }
+            }
+        });
+        rcv_sach.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        rcv_sach.setAdapter(adapter);
+
+    }
     protected void openDialog(final Context context, final int type) {
+
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_thanh_vien);
+        dialog.setContentView(R.layout.dialog_sach);
 
         Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
         TextView tv_title = dialog.findViewById(R.id.tv_title);
-        edt_maTV = dialog.findViewById(R.id.edt_maTV);
-        edt_hoten = dialog.findViewById(R.id.edt_hoten);
-        edt_namsinh = dialog.findViewById(R.id.edt_namsinh);
+        edt_maSach = dialog.findViewById(R.id.edt_maSach);
+        edt_tenSach = dialog.findViewById(R.id.edt_tenSach);
+        edt_giaThue = dialog.findViewById(R.id.edt_giaThue);
+
+        spinner_loaiSach = dialog.findViewById(R.id.spinner_loaiSach);
         Button btn_cancel = dialog.findViewById(R.id.btn_cancel);
         Button btn_save = dialog.findViewById(R.id.btn_save);
+
+        spinnerAdapter = new LoaiSachSpinnerAdapter(getContext(),R.layout.item_view_spinner,lstLS);
+        spinner_loaiSach.setAdapter(spinnerAdapter);
+        spinner_loaiSach.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                maLoaiSach = lstLS.get(position).getMaLoai();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         if (type != 0) {
-            thanhVien = lstTV.get(getPosition);
+            sach = lstSach.get(getPosition);
             tv_title.setText("Cập nhật thông tin");
-            edt_maTV.setText(String.valueOf(thanhVien.getMaTV()));
-            edt_hoten.setText(thanhVien.getHoTen());
-            edt_namsinh.setText(String.valueOf(thanhVien.getNamSinh()));
+            edt_maSach.setText(String.valueOf(sach.getMaSach()));
+            edt_tenSach.setText(sach.getTenSach());
+            edt_giaThue.setText(String.valueOf(sach.getGiaThue()));
+            for (int i = 0;i < lstLS.size(); i++) {
+                if (sach.getMaLoai() == lstLS.get(i).getMaLoai()) {
+                    maLoaiSach = i;
+                }
+            }
+            spinner_loaiSach.setSelection(maLoaiSach);
         } else {
-            tv_title.setText("Thêm thành viên");
-            edt_maTV.setText("Mã Thành viên: ");
+            tv_title.setText("Thêm Sách");
+            edt_maSach.setText("Mã Sách");
         }
+
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,18 +201,18 @@ public class ThanhVienFragment extends Fragment {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String hoTen = edt_hoten.getText().toString().trim();
-                String namSinh = edt_namsinh.getText().toString().trim();
-                String cccd = edCccd.getText().toString().trim();
-                if (validate(hoTen,namSinh, cccd) > 0) {
+                String tenSach = edt_tenSach.getText().toString().trim();
+                String tienThue = edt_giaThue.getText().toString().trim();
+                String namXB = edt_namXB.getText().toString().trim();
+                if (validate(tenSach,tienThue, namXB) > 0) {
                     if (type == 0) {
-                        if (thanhVienDAO.insert(thanhVien) > 0) {
+                        if (sachDAO.insert(sach) > 0) {
                             Toast.makeText(context, "Thêm thành công !", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Thêm thất bại !", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        if (thanhVienDAO.update(thanhVien) > 0) {
+                        if (sachDAO.update(sach) > 0) {
                             Toast.makeText(context, "Chỉnh sửa thông tin thành công !", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Chỉnh sửa thông tin thất bại !", Toast.LENGTH_SHORT).show();
@@ -167,37 +225,40 @@ public class ThanhVienFragment extends Fragment {
         });
         dialog.show();
     }
-
-    public void fillRCV() {
-        lstTV = (ArrayList<ThanhVien>) thanhVienDAO.getAll();
-        adapter = new ThanhVienAdapter(getContext(), lstTV, new IClickItemRCV() {
-            @Override
-            public void iclickItem(RecyclerView.ViewHolder viewHolder, int position, int type) {
-                getPosition = position;
-                if (type == 0) {
-                    openDialog(getContext(),1);
-                } else {
-                    xoa_thanhvien(String.valueOf(position));
-                }
+    public int validate(String tenSach,String giaThue, String namXB) {
+        int check;
+        if (tenSach.length() != 0 && giaThue.length() != 0) {
+            sach.setTenSach(tenSach);
+            sach.setGiaThue(Integer.parseInt(giaThue));
+            sach.setMaLoai(maLoaiSach);
+            check = 1;
+        } else {
+            if (tenSach.length() == 0) {
+                edt_tenSach.setError("Không được để trống trường này !");
             }
-        });
-        rcv_thanhvien.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        rcv_thanhvien.setAdapter(adapter);
-
+            if (giaThue.length() == 0) {
+                edt_giaThue.setError("Không được để trống trường này !");
+            }
+            if (namXB.length() == 0){
+                edt_namXB.setError("Không được để trống trường này !");
+            }
+            check = -1;
+        }
+        return check;
     }
 
-    public void xoa_thanhvien(final String id) {
+    public void xoa_sach(final String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Xóa Thành Viên");
-        builder.setMessage("Bạn có chắc muốn xóa thành viên này không?");
+        builder.setMessage("Bạn có chắc muốn xóa quyển sách này không?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(phieuMuonDAO.checkID("maTV",String.valueOf(id))) {
-                    Toast.makeText(getContext(), "Không thể xóa Thành viên này !", Toast.LENGTH_SHORT).show();
+                if(phieuMuonDAO.checkID("maSach",String.valueOf(id))) {
+                    Toast.makeText(getContext(), "Không thể xóa quyển Sách này !", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Xóa thành công !", Toast.LENGTH_SHORT).show();
-                    thanhVienDAO.delete(id);
+                    sachDAO.delete(id);
                     fillRCV();
                     dialog.dismiss();
                 }
@@ -211,26 +272,8 @@ public class ThanhVienFragment extends Fragment {
         });
         builder.show();
     }
-    public int validate(String hoTen,String namSinh, String cccd) {
-        int check;
-        if (hoTen.length() != 0 && namSinh.length() != 0 && cccd.length() != 0) {
-            thanhVien.setHoTen(hoTen);
-            thanhVien.setNamSinh(Integer.parseInt(namSinh));
-            check = 1;
-        } else {
-            if (hoTen.length() == 0) {
-                edt_hoten.setError("Không được để trống trường này !");
-            }
-            if (namSinh.length() == 0) {
-                edt_namsinh.setError("Không được để trống trường này !");
-            }
-            check = -1;
-        }
-        return check;
-    }
-
     private void initUI(View view) {
-        rcv_thanhvien = view.findViewById(R.id.rcv_thanhvien);
+        rcv_sach = view.findViewById(R.id.rcv_sach);
 
         btn_add = view.findViewById(R.id.btn_add);
     }

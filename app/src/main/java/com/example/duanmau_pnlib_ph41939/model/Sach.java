@@ -19,6 +19,13 @@ public class Sach {
         this.tenLoai = tenLoai;
     }
 
+    public Sach(int maSach, String tenSach, int giaThue, int maLoai) {
+        this.maSach = maSach;
+        this.tenSach = tenSach;
+        this.giaThue = giaThue;
+        this.maLoai = maLoai;
+    }
+
     public Sach(int maSach, String tenSach, int soLanMuon) {
         this.maSach = maSach;
         this.tenSach = tenSach;

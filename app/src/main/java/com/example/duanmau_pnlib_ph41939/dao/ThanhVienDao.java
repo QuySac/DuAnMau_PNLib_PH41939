@@ -9,65 +9,57 @@ import com.example.duanmau_pnlib_ph41939.database.DbHelper;
 import com.example.duanmau_pnlib_ph41939.model.ThanhVien;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ThanhVienDao {
-    DbHelper dbHelper;
+    private SQLiteDatabase db;
 
-    public ThanhVienDao(Context context) {
-        dbHelper = new DbHelper(context);
+    public ThanhVienDao (Context context){
+        DbHelper dbHelper = new DbHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
-    public ArrayList<ThanhVien> layDanhSach() {
-        ArrayList<ThanhVien> list = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM THANHVIEN", null);
-        if (cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            do {
-                list.add(new ThanhVien(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
-            } while (cursor.moveToNext());
-        }
-        return list;
+    public long insert(ThanhVien obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("HOTENTV", obj.getHoTen());
+        contentValues.put("NAMSINH",obj.getNamSinh());
+
+        return db.insert("THANHVIEN",null,contentValues);
     }
 
-    public boolean themTV(String hoTen, String namSinh) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("HOTENTV", hoTen);
-        values.put("NAMSINH", namSinh);
-        long check = db.insert("THANHVIEN", null, values);
-        if (check == -1) {
-            return false;
-        } else {
-            return true;
-        }
+    public long update(ThanhVien obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("HOTENTV", obj.getHoTen());
+        contentValues.put("NAMSINH",obj.getNamSinh());
+
+        return db.update("THANHVIEN",contentValues,"MATV = ?",new String[]{String.valueOf(obj.getMaTV())});
     }
 
-    public boolean capNhatTV(int maTV, String hoTen, String namSinh) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("HOTENTV", hoTen);
-        values.put("NAMSINH", namSinh);
-        long check = db.update("THANHVIEN", values, "MATV = ?", new String[]{String.valueOf(maTV)});
-        if (check == -1) {
-            return false;
-        } else {
-            return true;
-        }
+    public int delete(String id) {
+        return db.delete("THANHVIEN","MATV = ?",new String[]{String.valueOf(id)});
     }
 
-    public int xoaTV(int maTV) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM PHIEUMUON WHERE MATV = ?", new String[]{String.valueOf(maTV)});
-        if (cursor.getCount() != 0) {
-            return -1;
+    private List<ThanhVien> getData(String sql, String ... selectionArgs) {
+        List<ThanhVien> lstTV = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql,selectionArgs);
+        while (cursor.moveToNext()) {
+            lstTV.add(new ThanhVien(
+                    Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1),
+                    Integer.parseInt(cursor.getString(2))
+            ));
         }
+        return lstTV;
+    }
 
-        long check = db.delete("THANHVIEN", "MATV = ?", new String[]{String.valueOf(maTV)});
-        if (check == -1) {
-            return 0;
-        } else {
-            return 1;
-        }
+    public ThanhVien getID (String id) {
+        String sql = "SELECT * FROM THANHVIEN WHERE MATV = ?";
+        List<ThanhVien> lstTV = getData(sql,id);
+        return lstTV.get(0);
+    }
+
+    public List<ThanhVien> getAll() {
+        String sql = "SELECT * FROM THANHVIEN";
+        return getData(sql);
     }
 }

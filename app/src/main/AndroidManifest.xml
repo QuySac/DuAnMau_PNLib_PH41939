@@ -7,7 +7,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Quản lý thư viện"
         android:supportsRtl="true"
         android:theme="@style/Theme.DuAnMau_PNLib_PH41939"
         tools:targetApi="31">
@@ -15,11 +15,11 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".LoginScreen"
             android:exported="false"
             android:theme="@style/Theme.DuAnMau_PNLib_PH41939.NoActionBar" />
         <activity
-            android:name=".LoginScreen"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
