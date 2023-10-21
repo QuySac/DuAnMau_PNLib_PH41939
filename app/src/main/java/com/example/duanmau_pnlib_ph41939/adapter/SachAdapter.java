@@ -10,11 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asm_mob2041_ph41626.DAO.LoaiSachDAO;
-import com.example.asm_mob2041_ph41626.IClickItemRCV;
-import com.example.asm_mob2041_ph41626.Model.LoaiSach;
-import com.example.asm_mob2041_ph41626.Model.Sach;
-import com.example.asm_mob2041_ph41626.R;
+import com.example.duanmau_pnlib_ph41939.IClickItemRCV;
+import com.example.duanmau_pnlib_ph41939.R;
+import com.example.duanmau_pnlib_ph41939.dao.LoaiSachDao;
+import com.example.duanmau_pnlib_ph41939.model.LoaiSach;
+import com.example.duanmau_pnlib_ph41939.model.Sach;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class SachAdapter extends RecyclerView.Adapter<SachAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        LoaiSachDAO loaiSachDAO = new LoaiSachDAO(context);
+        LoaiSachDao loaiSachDAO = new LoaiSachDao(context);
         Sach sach = lstSach.get(position);
 
         holder.tv_maSach.setText("Mã Sách: " + String.valueOf(sach.getMaSach()));

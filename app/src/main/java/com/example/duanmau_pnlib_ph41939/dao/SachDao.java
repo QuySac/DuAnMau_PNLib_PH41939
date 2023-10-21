@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duanmau_pnlib_ph41939.database.DbHelper;
+import com.example.duanmau_pnlib_ph41939.model.Sach;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class SachDao {
         contentValues.put("TENSACH",obj.getTenSach());
         contentValues.put("GIATHUE",obj.getGiaThue());
         contentValues.put("MALOAI",obj.getMaLoai());
+        contentValues.put("NAMXB", obj.getNamXB());
 
         return db.insert("SACH",null,contentValues);
     }
@@ -32,6 +34,7 @@ public class SachDao {
         contentValues.put("TENSACH",obj.getTenSach());
         contentValues.put("GIATHUE",obj.getGiaThue());
         contentValues.put("MALOAI",obj.getMaLoai());
+        contentValues.put("NAMXB", obj.getNamXB());
 
         return db.update("SACH",contentValues,"MASACH = ?",new String[]{String.valueOf(obj.getMaSach())});
     }
@@ -48,7 +51,8 @@ public class SachDao {
                     Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1),
                     Integer.parseInt(cursor.getString(2)),
-                    Integer.parseInt(cursor.getString(3))
+                    Integer.parseInt(cursor.getString(3)),
+                    cursor.getInt(4)
             ));
         }
         return lstSach;

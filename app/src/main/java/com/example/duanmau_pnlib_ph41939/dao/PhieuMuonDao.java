@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duanmau_pnlib_ph41939.database.DbHelper;
+import com.example.duanmau_pnlib_ph41939.model.PhieuMuon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,9 @@ public class PhieuMuonDao {
         contentValues.put("MATT",obj.getMaTT());
         contentValues.put("MATV",obj.getMaTV());
         contentValues.put("MASACH",obj.getMaSach());
-        contentValues.put("NGAYMUON",obj.getNgayThue());
+        contentValues.put("NGAYMUON",obj.getNgay());
         contentValues.put("TIENTHUE",obj.getTienThue());
-        contentValues.put("TRASACH",obj.getTrangThai());
+        contentValues.put("TRASACH",obj.getTraSach());
 
         return db.insert("PhieuMuon",null,contentValues);
     }
@@ -35,9 +36,9 @@ public class PhieuMuonDao {
         contentValues.put("MATT",obj.getMaTT());
         contentValues.put("MATV",obj.getMaTV());
         contentValues.put("MASACH",obj.getMaSach());
-        contentValues.put("NGAYMUON",obj.getNgayThue());
+        contentValues.put("NGAYMUON",obj.getNgay());
         contentValues.put("TIENTHUE",obj.getTienThue());
-        contentValues.put("TRASACH",obj.getTrangThai());
+        contentValues.put("TRASACH",obj.getTraSach());
 
         return db.update("PHIEUMUON",contentValues,"MAPM = ?",new String[]{String.valueOf(obj.getMaPM())});
     }
@@ -55,9 +56,9 @@ public class PhieuMuonDao {
                     cursor.getString(1),
                     Integer.parseInt(cursor.getString(2)),
                     Integer.parseInt(cursor.getString(3)),
+                    cursor.getString(4),
                     Integer.parseInt(cursor.getString(5)),
-                    Integer.parseInt(cursor.getString(6)),
-                    cursor.getString(4)
+                    Integer.parseInt(cursor.getString(6))
             ));
         }
         return lstPM;

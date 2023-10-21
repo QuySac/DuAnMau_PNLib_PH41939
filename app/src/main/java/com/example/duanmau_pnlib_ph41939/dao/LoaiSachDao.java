@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duanmau_pnlib_ph41939.database.DbHelper;
+import com.example.duanmau_pnlib_ph41939.model.LoaiSach;
 
 import java.util.ArrayList;
 import java.util.List;

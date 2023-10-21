@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.asm_mob2041_ph41626.Model.Sach;
-import com.example.asm_mob2041_ph41626.R;
+import com.example.duanmau_pnlib_ph41939.R;
+import com.example.duanmau_pnlib_ph41939.model.Sach;
 
 import java.util.ArrayList;
 

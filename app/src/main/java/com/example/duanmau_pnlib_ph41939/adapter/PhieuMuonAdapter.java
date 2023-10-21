@@ -10,13 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asm_mob2041_ph41626.DAO.SachDAO;
-import com.example.asm_mob2041_ph41626.DAO.ThanhVienDAO;
-import com.example.asm_mob2041_ph41626.IClickItemRCV;
-import com.example.asm_mob2041_ph41626.Model.PhieuMuon;
-import com.example.asm_mob2041_ph41626.Model.Sach;
-import com.example.asm_mob2041_ph41626.Model.ThanhVien;
-import com.example.asm_mob2041_ph41626.R;
+import com.example.duanmau_pnlib_ph41939.IClickItemRCV;
+import com.example.duanmau_pnlib_ph41939.R;
+import com.example.duanmau_pnlib_ph41939.dao.SachDao;
+import com.example.duanmau_pnlib_ph41939.dao.ThanhVienDao;
+import com.example.duanmau_pnlib_ph41939.model.PhieuMuon;
+import com.example.duanmau_pnlib_ph41939.model.Sach;
+import com.example.duanmau_pnlib_ph41939.model.ThanhVien;
 
 import java.util.ArrayList;
 
@@ -24,8 +24,8 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.View
 
     private Context context;
     private ArrayList<PhieuMuon> lstPM;
-    ThanhVienDAO thanhVienDAO;
-    SachDAO sachDAO;
+    ThanhVienDao thanhVienDAO;
+    SachDao sachDAO;
     IClickItemRCV clickItemRCV;
     public PhieuMuonAdapter(Context context, ArrayList<PhieuMuon> lstPM,IClickItemRCV itemRCV) {
         this.context = context;
@@ -44,9 +44,9 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PhieuMuon phieuMuon = lstPM.get(position);
 
-        thanhVienDAO = new ThanhVienDAO(context);
+        thanhVienDAO = new ThanhVienDao(context);
         ThanhVien thanhVien = thanhVienDAO.getID(String.valueOf(phieuMuon.getMaTV()));
-        sachDAO = new SachDAO(context);
+        sachDAO = new SachDao(context);
         Sach sach = sachDAO.getID(String.valueOf(phieuMuon.getMaSach()));
 
         holder.tv_maphieumuon.setText("Mã PM: " + String.valueOf(phieuMuon.getMaPM()));
@@ -94,7 +94,6 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.View
             tv_giathue = itemView.findViewById(R.id.tv_giathue);
             tv_trangthai = itemView.findViewById(R.id.tv_trangthai);
             tv_ngay = itemView.findViewById(R.id.tv_ngay);
-
             btn_delete = itemView.findViewById(R.id.btn_delete);
         }
     }

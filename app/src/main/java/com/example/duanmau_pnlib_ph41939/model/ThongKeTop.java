@@ -1,12 +1,12 @@
 package com.example.duanmau_pnlib_ph41939.model;
 
-public class Top {
+public class ThongKeTop {
     private String tenSach;
     private int soLuong;
 
-    public Top() {}
+    public ThongKeTop() {}
 
-    public Top(String tenSach, int soLuong) {
+    public ThongKeTop(String tenSach, int soLuong) {
         this.tenSach = tenSach;
         this.soLuong = soLuong;
     }

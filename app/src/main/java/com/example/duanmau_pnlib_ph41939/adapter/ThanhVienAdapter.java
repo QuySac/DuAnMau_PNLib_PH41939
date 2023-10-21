@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.asm_mob2041_ph41626.IClickItemRCV;
-import com.example.asm_mob2041_ph41626.Model.ThanhVien;
-import com.example.asm_mob2041_ph41626.R;
+import com.example.duanmau_pnlib_ph41939.IClickItemRCV;
+import com.example.duanmau_pnlib_ph41939.R;
+import com.example.duanmau_pnlib_ph41939.model.ThanhVien;
 
 import java.util.ArrayList;
 

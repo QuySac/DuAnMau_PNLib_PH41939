@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duanmau_pnlib_ph41939.database.DbHelper;
+import com.example.duanmau_pnlib_ph41939.model.Sach;
+import com.example.duanmau_pnlib_ph41939.model.ThongKeTop;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,14 +22,14 @@ public class ThongKeDao {
         db = dbHelper.getWritableDatabase();
     }
 
-    public List<Top> getTop () {
+    public List<ThongKeTop> getTop () {
         String sqlTop = "SELECT MASACH, COUNT(MASACH) AS SOLUONG FROM PHIEUMUON GROUP BY MASACH ORDER BY SOLUONG DESC LIMIT 10";
-        List<Top> lstTOP = new ArrayList<>();
+        List<ThongKeTop> lstTOP = new ArrayList<>();
         SachDao sachDAO = new SachDao(context);
         Cursor cursor = db.rawQuery(sqlTop,null);
         while ((cursor.moveToNext())){
             Sach sach = sachDAO.getID(cursor.getString(0));
-            lstTOP.add(new Top(
+            lstTOP.add(new ThongKeTop(
                     sach.getTenSach(),
                     Integer.parseInt(cursor.getString(1))
             ));

@@ -16,16 +16,16 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableThuThu = "CREATE TABLE THUTHU (\n" +
-                "    MATT    TEXT    PRIMARY KEY,\n" +
-                "    HOTEN   TEXT    NOT NULL,\n" +
-                "    MATKHAU TEXT    NOT NULL,\n" +
-                "    VAITRO  INTEGER NOT NULL\n" +
+                "    MATT    TEXT PRIMARY KEY,\n" +
+                "    HOTEN   TEXT NOT NULL,\n" +
+                "    MATKHAU TEXT NOT NULL\n" +
                 ");\n";
 
         String createTableThanhVien = "CREATE TABLE THANHVIEN (\n" +
                 "    MATV    INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    HOTENTV TEXT    NOT NULL,\n" +
-                "    NAMSINH TEXT    NOT NULL\n" +
+                "    NAMSINH TEXT    NOT NULL,\n" +
+                "    CCCD    INTEGER NOT NULL\n" +
                 ");\n";
 
         String createTableLoaiSach = "CREATE TABLE LOAISACH (\n" +
@@ -39,7 +39,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 "    TENSACH TEXT    NOT NULL\n" +
                 "                    UNIQUE,\n" +
                 "    GIATHUE INTEGER NOT NULL,\n" +
-                "    MALOAI  INTEGER REFERENCES LOAISACH (MALOAI) \n" +
+                "    MALOAI  INTEGER REFERENCES LOAISACH (MALOAI),\n" +
+                "    NAMXB   INTEGER NOT NULL\n" +
                 ");\n";
 
         String createTablePhieuMuon = "CREATE TABLE PHIEUMUON (\n" +
@@ -48,8 +49,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 "    MATV     INTEGER REFERENCES THANHVIEN (MATV),\n" +
                 "    MASACH   INTEGER REFERENCES SACH (MASACH),\n" +
                 "    NGAYMUON DATE    NOT NULL,\n" +
-                "    TRASACH  INTEGER NOT NULL,\n" +
-                "    TIENTHUE INTEGER NOT NULL\n" +
+                "    TIENTHUE INTEGER NOT NULL,\n" +
+                "    TRASACH  INTEGER NOT NULL\n" +
                 ");\n";
 
         db.execSQL(createTableThuThu);
@@ -57,7 +58,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(createTableLoaiSach);
         db.execSQL(createTableSach);
         db.execSQL(createTablePhieuMuon);
-        db.execSQL("INSERT INTO THUTHU VALUES ('admin','Nguyễn Sỹ Quý','111111', 1)");
+        db.execSQL("INSERT INTO THUTHU VALUES ('admin','Nguyễn Sỹ Quý','111111')");
     }
 
     @Override

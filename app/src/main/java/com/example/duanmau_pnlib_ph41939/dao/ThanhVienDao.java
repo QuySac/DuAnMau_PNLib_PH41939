@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duanmau_pnlib_ph41939.database.DbHelper;
+import com.example.duanmau_pnlib_ph41939.model.ThanhVien;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ThanhVienDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put("HOTENTV", obj.getHoTen());
         contentValues.put("NAMSINH",obj.getNamSinh());
+        contentValues.put("CCCD",obj.getCccd());
 
         return db.insert("THANHVIEN",null,contentValues);
     }
@@ -30,6 +32,7 @@ public class ThanhVienDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put("HOTENTV", obj.getHoTen());
         contentValues.put("NAMSINH",obj.getNamSinh());
+        contentValues.put("CCCD",obj.getCccd());
 
         return db.update("THANHVIEN",contentValues,"MATV = ?",new String[]{String.valueOf(obj.getMaTV())});
     }
@@ -45,7 +48,8 @@ public class ThanhVienDao {
             lstTV.add(new ThanhVien(
                     Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1),
-                    Integer.parseInt(cursor.getString(2))
+                    Integer.parseInt(cursor.getString(2)),
+                    cursor.getString(3)
             ));
         }
         return lstTV;

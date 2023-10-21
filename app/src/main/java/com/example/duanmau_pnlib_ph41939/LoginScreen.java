@@ -19,6 +19,7 @@ public class LoginScreen extends AppCompatActivity {
     TextInputLayout inTaiKhoan, inMatKhau;
     Button btnDangNhap, btnHuy;
     CheckBox chkLuu;
+    String username,password;
     ThuThuDao thuThuDao = new ThuThuDao(this);
 
     @Override
@@ -70,9 +71,9 @@ public class LoginScreen extends AppCompatActivity {
         } else {
             if (thuThuDao.checkLogin(taiKhoan, matKhau) > 0) {
                 Toast.makeText(getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                rememberUser(taiKhoan, matKhau, chkLuu.isChecked());
+                rememberAccount(chkLuu.isChecked());
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("TAIKHOAN", taiKhoan);
+                i.putExtra("USERNAME", taiKhoan);
                 startActivity(i);
                 finish();
             } else {
@@ -81,16 +82,23 @@ public class LoginScreen extends AppCompatActivity {
             }
         }
     }
-    public void rememberUser(String u, String p, boolean status) {
-        SharedPreferences pref = getSharedPreferences("USER_FILE",MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
-        if(!status){
-            edit.clear();
-        }else{
-            edit.putString("USERNAME",u);
-            edit.putString("PASSWORD",p);
-            edit.putBoolean("REMEMBER",status);
+    private void rememberAccount(Boolean chkRemember) {
+        SharedPreferences sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("USERNAME", edTaiKhoan.getText().toString().trim());
+        editor.putString("PASSWORD", edMatKhau.getText().toString().trim());
+        editor.putBoolean("CHKREMEMBER", chkRemember);
+        editor.apply();
+    }
+    private void checkSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        username = sharedPreferences.getString("USERNAME", "");
+        password = sharedPreferences.getString("PASSWORD","");
+        Boolean chkRemember = sharedPreferences.getBoolean("CHKREMEMBER",false);
+        chkLuu.setChecked(chkRemember);
+        if (chkLuu.isChecked()) {
+            edTaiKhoan.setText(username);
+            edMatKhau.setText(password);
         }
-        edit.commit();
     }
 }

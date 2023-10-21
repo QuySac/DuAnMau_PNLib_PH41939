@@ -58,6 +58,16 @@
             android:hint="Nhập năm sinh"
             android:paddingHorizontal="15dp" />
 
+        <EditText
+            android:id="@+id/edt_cccd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/khung_input_login"
+            android:hint="Nhập năm sinh"
+            android:paddingHorizontal="15dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
