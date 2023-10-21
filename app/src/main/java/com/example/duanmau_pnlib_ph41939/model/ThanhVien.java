@@ -5,13 +5,21 @@ public class ThanhVien {
     private String hoTen;
     private int namSinh;
 
-    public ThanhVien() {
-    }
+    private String cccd;
+
+    public ThanhVien() {}
 
     public ThanhVien(int maTV, String hoTen, int namSinh) {
         this.maTV = maTV;
         this.hoTen = hoTen;
         this.namSinh = namSinh;
+    }
+
+    public ThanhVien(int maTV, String hoTen, int namSinh, String cccd) {
+        this.maTV = maTV;
+        this.hoTen = hoTen;
+        this.namSinh = namSinh;
+        this.cccd = cccd;
     }
 
     public int getMaTV() {
@@ -36,5 +44,13 @@ public class ThanhVien {
 
     public void setNamSinh(int namSinh) {
         this.namSinh = namSinh;
+    }
+
+    public String getCccd() {
+        return cccd;
+    }
+
+    public void setCccd(String cccd) {
+        this.cccd = cccd;
     }
 }

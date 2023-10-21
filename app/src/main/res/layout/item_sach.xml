@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_style"
+        android:background="@drawable/shadow"
         android:padding="12dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:text="Mã Sách: 01"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/gray_4d0"/>
             <TextView
                 android:singleLine="true"
                 android:ellipsize="end"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="Giá thuê: 5.000"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/gray_4d0"/>
             <TextView
                 android:textStyle="bold"
                 android:id="@+id/tv_loaisach"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="Loại sách: CNTT"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/gray_4d0"/>
             <TextView
                 android:textStyle="bold"
                 android:id="@+id/tv_namXB"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="Năm xuất bản: năm"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/gray_4d0"/>
 
         </LinearLayout>
         <ImageButton
@@ -66,6 +66,6 @@
             android:layout_alignParentRight="true"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:background="@drawable/remove"/>
+            android:background="@drawable/img_delete"/>
     </RelativeLayout>
 </RelativeLayout>

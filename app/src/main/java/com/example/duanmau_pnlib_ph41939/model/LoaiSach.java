@@ -4,8 +4,7 @@ public class LoaiSach {
     private int maLoai;
     private String tenLoai;
 
-    public LoaiSach() {
-    }
+    public LoaiSach(){}
 
     public LoaiSach(int maLoai, String tenLoai) {
         this.maLoai = maLoai;

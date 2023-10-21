@@ -68,7 +68,7 @@ public class LoginScreen extends AppCompatActivity {
                 inMatKhau.setError(null);
             }
         } else {
-            if (thuThuDao.checkLogin(taiKhoan, matKhau)) {
+            if (thuThuDao.checkLogin(taiKhoan, matKhau) > 0) {
                 Toast.makeText(getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 rememberUser(taiKhoan, matKhau, chkLuu.isChecked());
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);

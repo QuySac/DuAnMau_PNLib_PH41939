@@ -21,7 +21,7 @@ public class LoaiSachAdapter extends RecyclerView.Adapter<LoaiSachAdapter.ViewHo
     private ArrayList<LoaiSach> lstLS;
     IClickItemRCV clickItemRCV;
 
-    public LoaiSachAdapter(Context context, ArrayList<LoaiSach> lstLS, IClickItemRCV itemRCV) {
+    public LoaiSachAdapter(Context context, ArrayList<LoaiSach> lstLS,IClickItemRCV itemRCV) {
         this.context = context;
         this.lstLS = lstLS;
         this.clickItemRCV = itemRCV;
@@ -30,7 +30,7 @@ public class LoaiSachAdapter extends RecyclerView.Adapter<LoaiSachAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loai_sach,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loaisach,parent,false);
         return new ViewHolder(view);
     }
 
@@ -64,8 +64,8 @@ public class LoaiSachAdapter extends RecyclerView.Adapter<LoaiSachAdapter.ViewHo
         ImageButton btn_xoa;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_maloai = itemView.findViewById(R.id.tv_maLoai);
-            tv_tenloai = itemView.findViewById(R.id.tv_tenLoai);
+            tv_maloai = itemView.findViewById(R.id.tv_maloai);
+            tv_tenloai = itemView.findViewById(R.id.tv_tenloai);
             btn_xoa = itemView.findViewById(R.id.btn_delete);
         }
     }

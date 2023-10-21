@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:padding="12dp"
     android:gravity="center"
-    android:background="@drawable/item_style">
+    android:background="@drawable/shadow">
     <TextView
         android:id="@+id/tv_maLoai"
         android:layout_width="wrap_content"

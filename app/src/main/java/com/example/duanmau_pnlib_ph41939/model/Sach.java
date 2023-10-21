@@ -5,31 +5,15 @@ public class Sach {
     private String tenSach;
     private int giaThue;
     private int maLoai;
-    private String tenLoai;
-    private int soLanMuon;
+    private int namXB;
+    public Sach(){}
 
-    public Sach() {
-    }
-
-    public Sach(int maSach, String tenSach, int giaThue, int maLoai, String tenLoai) {
+    public Sach(int maSach, String tenSach, int giaThue, int maLoai, int namXB) {
         this.maSach = maSach;
         this.tenSach = tenSach;
         this.giaThue = giaThue;
         this.maLoai = maLoai;
-        this.tenLoai = tenLoai;
-    }
-
-    public Sach(int maSach, String tenSach, int giaThue, int maLoai) {
-        this.maSach = maSach;
-        this.tenSach = tenSach;
-        this.giaThue = giaThue;
-        this.maLoai = maLoai;
-    }
-
-    public Sach(int maSach, String tenSach, int soLanMuon) {
-        this.maSach = maSach;
-        this.tenSach = tenSach;
-        this.soLanMuon = soLanMuon;
+        this.namXB = namXB;
     }
 
     public int getMaSach() {
@@ -64,19 +48,11 @@ public class Sach {
         this.maLoai = maLoai;
     }
 
-    public String getTenLoai() {
-        return tenLoai;
+    public int getNamXB() {
+        return namXB;
     }
 
-    public void setTenLoai(String tenLoai) {
-        this.tenLoai = tenLoai;
-    }
-
-    public int getSoLanMuon() {
-        return soLanMuon;
-    }
-
-    public void setSoLanMuon(int soLanMuon) {
-        this.soLanMuon = soLanMuon;
+    public void setNamXB(int namXB) {
+        this.namXB = namXB;
     }
 }

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.duanmau_pnlib_ph41939.R;
-import com.example.duanmau_pnlib_ph41939.model.Top;
+import com.example.asm_mob2041_ph41626.Model.Top;
+import com.example.asm_mob2041_ph41626.R;
 
 import java.util.ArrayList;
 
@@ -33,6 +33,7 @@ public class Top10Adapter extends RecyclerView.Adapter<Top10Adapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Top top = lstTop.get(position);
+
         holder.tv_stt.setText(String.valueOf(holder.getAdapterPosition() + 1));
         holder.tv_tensach.setText(top.getTenSach());
         holder.tv_soluong.setText(String.valueOf(top.getSoLuong()));

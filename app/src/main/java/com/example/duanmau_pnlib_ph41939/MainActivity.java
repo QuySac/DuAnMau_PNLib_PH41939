@@ -13,16 +13,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.duanmau_pnlib_ph41939.dao.ThuThuDao;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -71,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     relaceFrg(frgDT);
                     toolbar.setTitle("Doanh thu");
                 }else if(item.getItemId() == R.id.nav_TND){
-                    ThuThuFragment frgTND = new ThuThuFragment();
-                    relaceFrg(frgTND);
+//                    ThuThuFragment frgTND = new ThuThuFragment();
+//                    relaceFrg(frgTND);
                     toolbar.setTitle("Thêm người dùng");
                 }else if(item.getItemId() == R.id.nav_DoiMatKhau){
                     dialogDoiMatKhau();
@@ -119,35 +116,35 @@ public class MainActivity extends AppCompatActivity {
                 edNhapLaiMK.setText("");
             }
         });
-        btnLuu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String oldPass = edMkCu.getText().toString();
-                String newPass = edMkMoi.getText().toString();
-                String repass = edNhapLaiMK.getText().toString();
-                if(newPass.equals(repass)){
-                    SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences("USER_FILE",MainActivity.this.MODE_PRIVATE);
-                    String matt = sharedPreferences.getString("USERNAME","");
-                    String mk = sharedPreferences.getString("PASSWORD","");
-                    //cập nhật
-                    ThuThuDao thuThuDao =  new ThuThuDao(MainActivity.this);
-                    boolean check = thuThuDao.capNhatMatKhau(matt,oldPass,newPass);
-                    if(oldPass.equals(mk)){
-                        if(check){
-                            Toast.makeText(MainActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }else{
-                            Toast.makeText(MainActivity.this, "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        inMkCu.setError("Mật khẩu hiện tại không đúng");
-                    }
-                }else{
-                    inMkMoi.setError("Mật Khẩu Không Khớp");
-                    inNhapLaiMK.setError("Mật Khẩu Không Khớp");
-                }
-            }
-        });
+//        btnLuu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String oldPass = edMkCu.getText().toString();
+//                String newPass = edMkMoi.getText().toString();
+//                String repass = edNhapLaiMK.getText().toString();
+//                if(newPass.equals(repass)){
+//                    SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences("USER_FILE",MainActivity.this.MODE_PRIVATE);
+//                    String matt = sharedPreferences.getString("USERNAME","");
+//                    String mk = sharedPreferences.getString("PASSWORD","");
+//                    //cập nhật
+//                    ThuThuDao thuThuDao =  new ThuThuDao(MainActivity.this);
+//                    boolean check = thuThuDao.capNhatMatKhau(matt,oldPass,newPass);
+//                    if(oldPass.equals(mk)){
+//                        if(check){
+//                            Toast.makeText(MainActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+//                            dialog.dismiss();
+//                        }else{
+//                            Toast.makeText(MainActivity.this, "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }else{
+//                        inMkCu.setError("Mật khẩu hiện tại không đúng");
+//                    }
+//                }else{
+//                    inMkMoi.setError("Mật Khẩu Không Khớp");
+//                    inNhapLaiMK.setError("Mật Khẩu Không Khớp");
+//                }
+//            }
+//        });
     }
     public void relaceFrg(Fragment frg){
         FragmentManager fg = getSupportFragmentManager();

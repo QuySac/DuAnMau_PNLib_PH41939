@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_style"
+        android:background="@drawable/shadow"
         android:padding="12dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:text="Mã TV: 01"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/gray_4d0"/>
             <TextView
                 android:textStyle="bold"
                 android:id="@+id/tv_hoten"
@@ -39,13 +39,23 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
 
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/tv_cccd"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CCCD"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
         </LinearLayout>
         <ImageButton
             android:id="@+id/btn_delete"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/remove"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/img_delete"/>
     </RelativeLayout>
 </RelativeLayout>

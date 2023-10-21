@@ -5,41 +5,47 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duanmau_pnlib_ph41939.database.DbHelper;
-import com.example.duanmau_pnlib_ph41939.model.Sach;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ThongKeDao {
-    DbHelper dbHelper;
-
-    public ThongKeDao(Context context) {
-        dbHelper = new DbHelper(context);
+    private SQLiteDatabase db;
+    private Context context;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public ThongKeDao (Context context) {
+        this.context = context;
+        DbHelper dbHelper = new DbHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
-    public ArrayList<Sach> layDSTop10(){
-        ArrayList<Sach> list = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT pm.MASACH, sc.TENSACH, COUNT(pm.MASACH) AS SOLANMUON " +
-                "FROM PHIEUMUON pm, SACH sc WHERE pm.MASACH = sc.MASACH GROUP BY pm.MASACH, sc.TENSACH " +
-                "ORDER BY COUNT(pm.MASACH) DESC LIMIT 10",null);
-        if(cursor.getCount() != 0){
-            cursor.moveToFirst();
-            do {
-                list.add(new Sach(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
-            }while (cursor.moveToNext());
+    public List<Top> getTop () {
+        String sqlTop = "SELECT MASACH, COUNT(MASACH) AS SOLUONG FROM PHIEUMUON GROUP BY MASACH ORDER BY SOLUONG DESC LIMIT 10";
+        List<Top> lstTOP = new ArrayList<>();
+        SachDao sachDAO = new SachDao(context);
+        Cursor cursor = db.rawQuery(sqlTop,null);
+        while ((cursor.moveToNext())){
+            Sach sach = sachDAO.getID(cursor.getString(0));
+            lstTOP.add(new Top(
+                    sach.getTenSach(),
+                    Integer.parseInt(cursor.getString(1))
+            ));
         }
-        return list;
+        return lstTOP;
     }
 
-    public int layTopDoanhThu (String start, String end){
-        start = start.replace("/","");
-        end = end.replace("/","");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT SUM(TienThue) FROM PhieuMuon WHERE substr(Ngay,7) || substr(Ngay,4,2) || substr(Ngay,1,2) BETWEEN ? AND ?",new String[]{start,end});
-        if(cursor.getCount() != 0){
-            cursor.moveToFirst();
-            return cursor.getInt(0);
+    public int getDoanhThu(String tuNgay,String denNgay) {
+        String sqlDoanhthu = "SELECT SUM(TIENTHUE) as DOANHTHU FROM PHIEUMUON WHERE NGAY BETWEEN ? AND ?";
+        List<Integer> lstDT = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sqlDoanhthu,new String[]{tuNgay,denNgay});
+        while (cursor.moveToNext()) {
+            try {
+                lstDT.add(Integer.parseInt(cursor.getString(0)));
+            } catch (Exception e) {
+                lstDT.add(0);
+            }
         }
-        return 0;
+        return lstDT.get(0);
     }
 }

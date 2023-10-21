@@ -7,39 +7,68 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duanmau_pnlib_ph41939.database.DbHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ThuThuDao {
-    DbHelper dbHelper;
+    private SQLiteDatabase db;
 
     public ThuThuDao(Context context) {
-        dbHelper = new DbHelper(context);
+        DbHelper dbHelper = new DbHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
-    public boolean checkLogin(String maTT, String matKhau) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM THUTHU WHERE MATT = ? AND MATKHAU = ?",
-                new String[]{maTT, matKhau});
-        if (cursor.getCount() != 0) {
-            return true;
-        } else {
-            return false;
+    public long insert(ThuThu obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MATT",obj.getMaTT());
+        contentValues.put("HOTEN", obj.getHoTen());
+        contentValues.put("MATKHAU",obj.getMatKhau());
+
+        return db.insert("THUTHU",null,contentValues);
+    }
+
+    public long update(ThuThu obj) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("HOTEN", obj.getHoTen());
+        contentValues.put("MATKHAU",obj.getMatKhau());
+
+        return db.update("THUTHU",contentValues,"MATT = ?",new String[]{String.valueOf(obj.getMaTT())});
+    }
+
+    public int delete(String id) {
+        return db.delete("THUTHU","MATT = ?",new String[]{String.valueOf(id)});
+    }
+
+    private List<ThuThu> getData(String sql, String ... selectionArgs) {
+        List<ThuThu> lstTT = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql,selectionArgs);
+        while (cursor.moveToNext()) {
+            lstTT.add(new ThuThu(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2)
+            ));
         }
+        return lstTT;
     }
 
-    public boolean capNhatMatKhau (String username, String oldPass, String newPass) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM THUTHU WHERE MATT = ? AND MATKHAU = ?",
-                new String[]{username, oldPass});
+    public ThuThu getID (String id) {
+        String sql = "SELECT * FROM THUTHU WHERE MATT = ?";
+        List<ThuThu> lstTT = getData(sql,id);
+        return lstTT.get(0);
+    }
+
+    public List<ThuThu> getAll() {
+        String sql = "SELECT * FROM THUTHU";
+        return getData(sql);
+    }
+
+    public long checkLogin(String username,String password) {
+        Cursor cursor = db.rawQuery("SELECT * FROM THUTHU WHERE MATT = ? AND MATKHAU = ?",new String[]{username,password});
         if (cursor.getCount() > 0) {
-            ContentValues values = new ContentValues();
-            values.put("MATKHAU", newPass);
-            long check = db.update("THUTHU", values, "MATT = ?",
-                    new String[]{username});
-            if (check == -1) {
-                return false;
-            } else {
-                return true;
-            }
+            return 1;
+        } else {
+            return -1;
         }
-        return false;
     }
 }

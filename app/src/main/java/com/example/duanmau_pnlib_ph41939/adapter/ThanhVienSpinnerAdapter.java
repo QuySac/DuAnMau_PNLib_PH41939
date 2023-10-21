@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.duanmau_pnlib_ph41939.R;
-import com.example.duanmau_pnlib_ph41939.model.ThanhVien;
+import com.example.asm_mob2041_ph41626.Model.ThanhVien;
+import com.example.asm_mob2041_ph41626.R;
 
 import java.util.ArrayList;
 
@@ -48,6 +48,7 @@ public class ThanhVienSpinnerAdapter extends ArrayAdapter<ThanhVien> {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_spinner_selected,parent,false);
         final ThanhVien thanhVien = lstTV.get(position);
+
         if (thanhVien != null) {
             tv_maLoai = convertView.findViewById(R.id.tv_maLoai);
             tv_maLoai.setText(String.valueOf(thanhVien.getMaTV()));

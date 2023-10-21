@@ -2,16 +2,15 @@ package com.example.duanmau_pnlib_ph41939.model;
 
 public class ThuThu {
     private String maTT;
-    private String matKhau;
     private String hoTen;
+    private String matKhau;
 
-    public ThuThu() {
-    }
+    public ThuThu(){}
 
-    public ThuThu(String maTT, String matKhau, String hoTen) {
+    public ThuThu(String maTT, String hoTen, String matKhau) {
         this.maTT = maTT;
-        this.matKhau = matKhau;
         this.hoTen = hoTen;
+        this.matKhau = matKhau;
     }
 
     public String getMaTT() {
@@ -22,19 +21,19 @@ public class ThuThu {
         this.maTT = maTT;
     }
 
-    public String getMatKhau() {
-        return matKhau;
-    }
-
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
-    }
-
     public String getHoTen() {
         return hoTen;
     }
 
     public void setHoTen(String hoTen) {
         this.hoTen = hoTen;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
     }
 }

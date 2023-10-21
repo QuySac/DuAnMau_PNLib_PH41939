@@ -5,32 +5,20 @@ public class PhieuMuon {
     private String maTT;
     private int maTV;
     private int maSach;
+    private String ngay;
     private int tienThue;
-    private int  trangThai;
-    private String ngayThue;
-    private String hoTenTV;
-    private String tenSach;
+    private int traSach;
 
-    public PhieuMuon() {
-    }
+    public PhieuMuon(){}
 
-    public PhieuMuon(int maPM, String maTT, int maTV, int maSach, int tienThue, int trangThai, String ngayThue) {
+    public PhieuMuon(int maPM, String maTT, int maTV, int maSach, String ngay, int tienThue, int traSach) {
         this.maPM = maPM;
         this.maTT = maTT;
         this.maTV = maTV;
         this.maSach = maSach;
+        this.ngay = ngay;
         this.tienThue = tienThue;
-        this.trangThai = trangThai;
-        this.ngayThue = ngayThue;
-    }
-
-    public PhieuMuon(int maPM, int tienThue, int trangThai, String ngayThue, String hoTenTV, String tenSach) {
-        this.maPM = maPM;
-        this.tienThue = tienThue;
-        this.trangThai = trangThai;
-        this.ngayThue = ngayThue;
-        this.hoTenTV = hoTenTV;
-        this.tenSach = tenSach;
+        this.traSach = traSach;
     }
 
     public int getMaPM() {
@@ -65,6 +53,14 @@ public class PhieuMuon {
         this.maSach = maSach;
     }
 
+    public String getNgay() {
+        return ngay;
+    }
+
+    public void setNgay(String ngay) {
+        this.ngay = ngay;
+    }
+
     public int getTienThue() {
         return tienThue;
     }
@@ -73,35 +69,11 @@ public class PhieuMuon {
         this.tienThue = tienThue;
     }
 
-    public int getTrangThai() {
-        return trangThai;
+    public int getTraSach() {
+        return traSach;
     }
 
-    public void setTrangThai(int trangThai) {
-        this.trangThai = trangThai;
-    }
-
-    public String getNgayThue() {
-        return ngayThue;
-    }
-
-    public void setNgayThue(String ngayThue) {
-        this.ngayThue = ngayThue;
-    }
-
-    public String getHoTenTV() {
-        return hoTenTV;
-    }
-
-    public void setHoTenTV(String hoTenTV) {
-        this.hoTenTV = hoTenTV;
-    }
-
-    public String getTenSach() {
-        return tenSach;
-    }
-
-    public void setTenSach(String tenSach) {
-        this.tenSach = tenSach;
+    public void setTraSach(int traSach) {
+        this.traSach = traSach;
     }
 }

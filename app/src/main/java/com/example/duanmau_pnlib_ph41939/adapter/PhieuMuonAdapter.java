@@ -10,13 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.duanmau_pnlib_ph41939.IClickItemRCV;
-import com.example.duanmau_pnlib_ph41939.R;
-import com.example.duanmau_pnlib_ph41939.dao.SachDao;
-import com.example.duanmau_pnlib_ph41939.dao.ThanhVienDao;
-import com.example.duanmau_pnlib_ph41939.model.PhieuMuon;
-import com.example.duanmau_pnlib_ph41939.model.Sach;
-import com.example.duanmau_pnlib_ph41939.model.ThanhVien;
+import com.example.asm_mob2041_ph41626.DAO.SachDAO;
+import com.example.asm_mob2041_ph41626.DAO.ThanhVienDAO;
+import com.example.asm_mob2041_ph41626.IClickItemRCV;
+import com.example.asm_mob2041_ph41626.Model.PhieuMuon;
+import com.example.asm_mob2041_ph41626.Model.Sach;
+import com.example.asm_mob2041_ph41626.Model.ThanhVien;
+import com.example.asm_mob2041_ph41626.R;
 
 import java.util.ArrayList;
 
@@ -24,8 +24,8 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.View
 
     private Context context;
     private ArrayList<PhieuMuon> lstPM;
-    ThanhVienDao thanhVienDao;
-    SachDao sachDAO;
+    ThanhVienDAO thanhVienDAO;
+    SachDAO sachDAO;
     IClickItemRCV clickItemRCV;
     public PhieuMuonAdapter(Context context, ArrayList<PhieuMuon> lstPM,IClickItemRCV itemRCV) {
         this.context = context;
@@ -36,7 +36,7 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_phieu_muon,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_phieumuon,parent,false);
         return new ViewHolder(view);
     }
 
@@ -44,16 +44,16 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PhieuMuon phieuMuon = lstPM.get(position);
 
-        thanhVienDao = new ThanhVienDao(context);
-        ThanhVien thanhVien = thanhVienDao.getID(String.valueOf(phieuMuon.getMaTV()));
-        sachDAO = new SachDao(context);
+        thanhVienDAO = new ThanhVienDAO(context);
+        ThanhVien thanhVien = thanhVienDAO.getID(String.valueOf(phieuMuon.getMaTV()));
+        sachDAO = new SachDAO(context);
         Sach sach = sachDAO.getID(String.valueOf(phieuMuon.getMaSach()));
 
         holder.tv_maphieumuon.setText("Mã PM: " + String.valueOf(phieuMuon.getMaPM()));
         holder.tv_thanhvien.setText("Thành viên: " + thanhVien.getHoTen());
         holder.tv_tensach.setText("Sách: " + sach.getTenSach());
         holder.tv_giathue.setText("Giá thuê: " + String.valueOf(sach.getGiaThue()));
-        if(phieuMuon.getTrangThai() == 1) {
+        if(phieuMuon.getTraSach() == 1) {
             holder.tv_trangthai.setText("Đã trả sách");
             holder.tv_trangthai.setTextColor(context.getResources().getColor(R.color.blue_A400));
         } else {
@@ -61,7 +61,7 @@ public class PhieuMuonAdapter extends RecyclerView.Adapter<PhieuMuonAdapter.View
             holder.tv_trangthai.setTextColor(context.getResources().getColor(R.color.red_A400));
 
         }
-        holder.tv_ngay.setText("Ngày thuê: " + phieuMuon.getNgayThue());
+        holder.tv_ngay.setText("Ngày thuê: " + phieuMuon.getNgay());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
