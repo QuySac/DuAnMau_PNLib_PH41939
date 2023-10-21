@@ -20,7 +20,6 @@ public class LoginScreen extends AppCompatActivity {
     Button btnDangNhap, btnHuy;
     CheckBox chkLuu;
     String username,password;
-    ThuThuDao thuThuDao = new ThuThuDao(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +68,7 @@ public class LoginScreen extends AppCompatActivity {
                 inMatKhau.setError(null);
             }
         } else {
+            ThuThuDao thuThuDao = new ThuThuDao(LoginScreen.this);
             if (thuThuDao.checkLogin(taiKhoan, matKhau) > 0) {
                 Toast.makeText(getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 rememberAccount(chkLuu.isChecked());

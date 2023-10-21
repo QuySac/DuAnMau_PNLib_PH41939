@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shadow"
+        android:background="@drawable/item_style"
         android:padding="12dp">
         <LinearLayout
             android:id="@+id/w_content"
@@ -59,7 +59,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:background="@drawable/img_delete"/>
+            android:background="@drawable/remove"/>
         <TextView
             android:layout_below="@id/w_content"
             android:layout_alignParentRight="true"
